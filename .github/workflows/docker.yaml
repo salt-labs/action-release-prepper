@@ -68,7 +68,8 @@ jobs:
         name: Define Container metadata
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ matrix.config.name }}
+          images: ${{ env.REGISTRY }}/${{ env.PROJECT }}
+          #images: ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.config.name }}
           flavor: |
             latest=true
           tags: |
