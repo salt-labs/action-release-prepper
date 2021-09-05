@@ -207,6 +207,7 @@ jobs:
             latest=true
           tags: |
             type=raw,value={{ date 'YYYYMMDD' }}
+            type=raw,value=${{ needs.create_release.outputs.calver }}
             type=raw,value=release
             type=raw,value=stable
             type=sha,format=long
