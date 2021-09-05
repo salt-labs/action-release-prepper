@@ -27,7 +27,7 @@
 | :----- | :---------- |
 | ![Dependabot](https://api.dependabot.com/badges/status?host=github&repo=salt-labs/action-release-prepper) | Automated dependency updates |
 | ![Greetings](https://github.com/salt-labs/action-release-prepper/workflows/Greetings/badge.svg) | Greets new users to the project. |
-| ![Kaniko](https://github.com/salt-labs/action-release-prepper/workflows/Kaniko/badge.svg) | Testing and building containers with Kaniko |
+| ![Docker](https://github.com/salt-labs/action-release-prepper/workflows/Docker/badge.svg) | Testing and building containers with Docker |
 | ![Labeler](https://github.com/salt-labs/action-release-prepper/workflows/Labeler/badge.svg) | Automates label addition to issues and PRs |
 | ![Release](https://github.com/salt-labs/action-release-prepper/workflows/Release/badge.svg) | Ships new releases :ship: |
 | ![Stale](https://github.com/salt-labs/action-release-prepper/workflows/Stale/badge.svg) | Checks for Stale issues and PRs  |
