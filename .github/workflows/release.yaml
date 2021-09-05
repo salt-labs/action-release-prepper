@@ -163,6 +163,9 @@ jobs:
 
     name: Build and Push Container Image ${{ matrix.config.name }}
 
+    needs:
+      - create_release
+
     runs-on: ${{ matrix.os }}
 
     timeout-minutes: 30
