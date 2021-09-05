@@ -1,0 +1,127 @@
+##################################################
+# Name: action.yaml
+# Description: GitHub Action to prepare for shipping time
+##################################################
+
+name: "Release Prepper"
+author: "Salt Labs"
+description: "An opinionated GitHub Action to prepare for shipping time"
+branding:
+  icon: "activity"
+  color: "red"
+
+inputs:
+  ### Common ###
+
+  # INPUT_LOGLEVEL
+  loglevel:
+    description: "Sets the action log level from DEBUG,INFO,WARN,ERR"
+    required: false
+    default: "INFO"
+
+  # INPUT_TAG_ENABLE
+  tag_enable:
+    description: "Enable this to have the git tag applied to HEAD"
+    required: false
+    default: "FALSE"
+
+  # INPUT_TAG_FORCE
+  tag_force:
+    description: "In the event there is a git tag collision, this forces the tag to shift to HEAD"
+    required: false
+    default: "FALSE"
+
+  ### Changelog ###
+
+  # INPUT_CHANGELOG_ENABLE
+  changelog_enable:
+    description: "If you want the changelog output"
+    required: false
+    default: "FALSE"
+
+  # INPUT_GIT_PRETTY_FORMAT
+  git_pretty_format:
+    description: "The format to pass to git log --pretty for the changelog."
+    required: false
+    default: "* %G? %h %aN %s"
+
+  ### CalVer ###
+
+  # INPUT_CALVER_ENABLE
+  calver_enable:
+    description: "Enable to output Calendar Version number"
+    required: false
+    default: "FALSE"
+
+  # INPUT_CAVER_SCHEME
+  calver_scheme:
+    description: "The Calendar Versioning scheme you want to be used. See the README for details."
+    required: false
+    default: "YYYY.0M.0D.GEN"
+
+  # INPUT_CALVER_SPLIT
+  calver_split:
+    description: "The character used to split the CalVer scheme"
+    required: false
+    default: "."
+
+  # INPUT_CALVER_SPLIT_MOD
+  calver_split_mod:
+    description: "If you wish to use a different character for the CalVer modifier. Defaults to the same as calver split."
+    required: false
+    default: ""
+
+  # INPUT_TIMEZONE
+  calver_timezone:
+    description: "The TimeZone for the Calendar Version output"
+    required: false
+    default: "UTC-0"
+
+  ### SemVer ###
+
+  # INPUT_SEMVER_ENABLE
+  semver_enable:
+    description: "For those times you really need Semantic Versioning, like Go modules and dealing with Cargo."
+    required: false
+    default: ""
+
+  # INPUT_SEMVER_TYPE
+  semver_type:
+    description: "The Semantic Versioning type to increment. 'major', 'minor', 'patch'"
+    required: false
+    default: "patch"
+
+  # INPUT_SEMVER_PREFIX
+  semver_prefix:
+    description: "A manual prefix to apply to the semantic version number. For example; 'v'"
+    required: false
+    default: ""
+
+  # INPUT_SEMVER_SUFFIX
+  semver_suffix:
+    description: "A manual suffix to apply to the semantic version number. For example; '-dev'"
+    required: false
+    default: ""
+
+outputs:
+  changelog:
+    description: "Git changelog"
+
+  calver:
+    description: "Calendar Versioning number"
+
+  repo_owner:
+    description: "GitHub repository organisation or user account"
+
+  repo_name:
+    description: "GitHub repository name"
+
+runs:
+  using: "docker"
+  #image: docker://ghcr.io/salt-labs/action-release-prepperper:stable
+  image: Dockerfile
+  entrypoint: "/scripts/entrypoint.sh"
+  env:
+    action: "TRUE"
+  args:
+    - ""

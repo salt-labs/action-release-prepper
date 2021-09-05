@@ -1,0 +1,16 @@
+#########################
+# .dockeringnore
+# Reference: https://docs.docker.com/engine/reference/builder/#dockerignore-file
+#########################
+
+# Blacklist everything
+*
+
+# Include the documentation
+!README.md
+!LICENSE
+
+# Include the scripts
+!scripts/
+!scripts/entrypoint.sh
+!scripts/functions.sh

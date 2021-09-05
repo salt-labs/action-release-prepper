@@ -1,0 +1,77 @@
+##################################################
+# Name: release.yaml
+# Description: Workflow to create and publish to a GitHub release
+##################################################
+
+name: Release
+
+on:
+
+  push:
+    branches:
+      - master
+
+defaults:
+
+  run:
+    shell: bash
+
+jobs:
+
+  #########################
+  # Create a GitHub Release
+  #########################
+
+  create_release:
+
+    name: Create Release
+
+    runs-on: ${{ matrix.os }}
+
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: true
+      matrix:
+        os:
+          - ubuntu-latest
+
+    steps:
+
+      - id: checkout_repository
+        name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: false
+          clean: true
+
+      - id: prep_release
+        name: Prepare for Release
+        uses: salt-labs/action-release-prepper@master
+        with:
+          loglevel: "INFO"
+          tag_enable: "TRUE"
+          tag_force: "FALSE"
+          git_pretty_format: "* %h %G? %aN - %s"
+          calver_prefix: ""
+          calver_scheme: "YYYY.MM.GEN"
+          calver_suffix: ""
+          calver_split: "."
+          calver_split_mod: "."
+          timezone: "Australia/Sydney"
+
+      - id: create_release
+        name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.prep_release.outputs.calver }}
+          release_name: ${{ steps.prep_release.outputs.calver }}
+          body: |
+            # ${{ steps.prep_release.outputs.repo_name }} changelog
+
+            ${{ steps.prep_release.outputs.changelog }}
+          draft: false
+          prerelease: false
