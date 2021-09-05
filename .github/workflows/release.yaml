@@ -25,6 +25,8 @@ on:
 env:
   PROJECT: ${{ github.repository }}
 
+  REGISTRY: ghcr.io
+
   REGISTRY_NAMESPACE: ${{ github.repository_owner }}
   REGISTRY_USERNAME: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PAT }}
@@ -163,6 +165,9 @@ jobs:
 
     name: Build and Push Container Image ${{ matrix.config.name }}
 
+    needs:
+      - create_release
+
     runs-on: ${{ matrix.os }}
 
     timeout-minutes: 30
@@ -196,12 +201,14 @@ jobs:
         name: Define Container metadata
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.config.name }}
+          images: ${{ env.REGISTRY }}/${{ env.PROJECT }}
+          #images: ${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.config.name }}
           flavor: |
             latest=true
           tags: |
             type=raw,value={{ date 'YYYYMMDD' }}
             type=raw,value=release
+            type=raw,value=stable
             type=sha,format=long
             type=ref,event=branch
             type=ref,event=tag
